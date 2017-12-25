@@ -30,6 +30,7 @@ body {
 
     @media screen and (min-width: 1024px) {
         background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url(https://source.unsplash.com/1280x1024);
+        background-size: cover;
     }
 }
 
