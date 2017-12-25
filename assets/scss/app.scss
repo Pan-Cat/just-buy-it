@@ -1,0 +1,56 @@
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/css3/filter";
+
+body {
+    background-color: #000;
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    @include display-flex;
+    @include flex-direction(row);
+    @include justify-content(center);
+    @include align-items(center);
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://source.unsplash.com/collection/1527367/1280x1024);
+    background-size: cover;
+    @include filter(blur(5px));
+}
+
+.word {
+    font-size: 9.6vw;
+    z-index: 100;
+    padding: 2vw;
+    color: #eee;
+    text-align: center;
+}
+
+.footer {
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    right: 0;
+    color: #ccc;
+
+    @include display-flex;
+    @include flex-direction(row);
+    @include justify-content(center);
+    @include align-items(center);
+
+    a {
+        color: #ccc;
+    }
+}
