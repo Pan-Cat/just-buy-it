@@ -4,7 +4,6 @@
 
 body {
     background-color: #000;
-    font-family: 'Noto Sans TC', sans-serif;
 }
 
 .wrapper {
@@ -25,9 +24,9 @@ body {
     bottom: 0;
     right: 0;
     left: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://source.unsplash.com/collection/1527367/1280x1024);
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url(https://source.unsplash.com/1280x1024);
     background-size: cover;
-    @include filter(blur(5px));
+    @include filter(blur(1px));
 }
 
 .word {
