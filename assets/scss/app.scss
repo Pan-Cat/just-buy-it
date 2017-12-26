@@ -4,7 +4,6 @@
 
 body {
     background-color: #000;
-    font-family: 'Noto Sans TC', sans-serif;
 }
 
 .wrapper {
@@ -36,11 +35,12 @@ body {
 }
 
 .word {
-    font-size: 9.6vw;
     z-index: 100;
     padding: 2vw;
+    font-size: 9.6vw;
     color: #eee;
     text-align: center;
+    font-family: 'Noto Sans TC', sans-serif;
 
     img {
         width: 64px;
@@ -54,6 +54,7 @@ body {
     left: 0;
     right: 0;
     color: #ccc;
+    font-family: 'Lato', sans-serif;
 
     @include display-flex;
     @include flex-direction(row);
