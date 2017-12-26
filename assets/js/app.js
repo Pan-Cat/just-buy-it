@@ -18,9 +18,6 @@ const IMGUR_ID = '448c9fc02d25574';
 
 const DATA_URL = 'https://spreadsheets.google.com/feeds/cells/' + SHEET_ID + '/' + GRID_ID + '/public/values?alt=json-in-script&callback=dataParser';
 
-const IMAGE_WIDTH = 1280;
-const IMAGE_HEIGHT = 1024;
-
 const CANVAS = document.getElementById('canvas');
 
 let IMGUR_URL = '';
@@ -81,24 +78,8 @@ function drawText() {
 
 function drawBG() {
     let ctx = CANVAS.getContext('2d');
-    let width = IMAGE_WIDTH, height = IMAGE_HEIGHT;
-    let startX = 0;
 
-    // 先以高為基準好了，小於比例圖片就置中，大於比例就直接破壞原始比例拉寬
-    if (HEIGHT > IMAGE_HEIGHT) {
-        height = HEIGHT;
-        width = HEIGHT/IMAGE_HEIGHT*IMAGE_WIDTH;
-
-        if (width <= WIDTH) {
-            width = IMAGE_WIDTH;
-        }
-        else {
-            startX = (width - WIDTH) / 2;
-            width = IMAGE_HEIGHT - startX * 2;
-        }
-    }
-
-    ctx.drawImage(IMAGE_BG, startX, 0, width, IMAGE_HEIGHT, 0, 0, WIDTH, HEIGHT);
+    ctx.drawImage(IMAGE_BG, 0, 0, WIDTH, HEIGHT);
     StackBlur.canvasRGB(CANVAS, 0, 0, WIDTH, HEIGHT, 4);
 
     var grd = ctx.createLinearGradient(0, 0, 0, HEIGHT);
@@ -123,7 +104,7 @@ function initCanvas() {
         drawText();
     };
     IMAGE_BG.crossOrigin = 'Anonymous';
-    IMAGE_BG.src = 'https://source.unsplash.com/1280x1024';
+    IMAGE_BG.src = 'https://source.unsplash.com/' + WIDTH + 'x' + HEIGHT;
 }
 
 function shareToFacebook() {
@@ -152,13 +133,7 @@ function shareToFacebook() {
     // });
 }
 
-function shareToTwitter() {
-
-
-    if (IMGUR_URL) {
-        return window.open("https://twitter.com/home/?status="+encodeURIComponent(IMGUR_URL + "「" + WORDS[0] + "」 #justbuyit"));
-    }
-
+function uploadToImgur(callback) {
     var form = new FormData();
     form.append("image", $("#canvas")[0].toDataURL('image/jpeg').split(',')[1]);
 
@@ -180,9 +155,20 @@ function shareToTwitter() {
     $.ajax(settings).done(function (response) {
         if(response.success) {
             IMGUR_URL = response.data.link;
-            window.open("https://twitter.com/home/?status="+encodeURIComponent(IMGUR_URL + "「" + WORDS[0] + "」 https://just-buy.it #justbuyit"));
+            callback();
         }
 
+    });
+}
+
+function shareToTwitter() {
+
+    if (IMGUR_URL) {
+        return window.open("https://twitter.com/home/?status="+encodeURIComponent(IMGUR_URL + "「" + WORDS[0] + "」 #justbuyit"));
+    }
+
+    uploadToImgur(function() {
+        window.open("https://twitter.com/home/?status="+encodeURIComponent(IMGUR_URL + "「" + WORDS[0] + "」 https://just-buy.it #justbuyit"));
     });
 }
 
