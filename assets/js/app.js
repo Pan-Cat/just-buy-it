@@ -102,38 +102,17 @@ function initCanvas() {
     IMAGE_BG.onload = function() {
         drawBG();
         drawText();
+        $('#overlay').hide();
     };
     IMAGE_BG.crossOrigin = 'Anonymous';
     IMAGE_BG.src = 'https://source.unsplash.com/' + WIDTH + 'x' + HEIGHT;
 }
 
-function shareToFacebook() {
-
-    // var form = new FormData();
-    // form.append("image", $("#canvas")[0].toDataURL('image/jpeg'));
-
-    // var settings = {
-    //   "async": true,
-    //   "crossDomain": true,
-    //   "url": "https://api.imgur.com/3/image",
-    //   "method": "POST",
-    //   "headers": {
-    //     "authorization": "Client-ID " + IMGUR_ID
-    //   },
-    //   "processData": false,
-    //   "contentType": false,
-    //   "mimeType": "multipart/form-data",
-    //   "data": form
-    // }
-
-    // window.open('http://www.facebook.com/sharer.php?s=100&p[title]='+encodeURIComponent(WORDS[0]) + '&p[summary]=' + encodeURIComponent(WORDS[0]) + '&p[url]=' + encodeURIComponent('https://just-buy.it') + '&p[images][0]=' + encodeURIComponent('https://p2.bahamut.com.tw/B/ACG/c/07/0000084307.PNG'));
-
-    // $.ajax(settings).done(function (response) {
-    //     window.open("http://www.facebook.com/dialog/feed?app_id=266143446762054&link="+img_uploaded+"&picture="+img_uploaded+"&name=PlurkBingo&caption=噗浪賓果&description=快來玩噗浪賓果 "+$('#share_url').val()+"&redirect_uri=http://bingo.hsatac.net");
-    // });
-}
-
 function uploadToImgur(callback) {
+
+    $('#overlay').find('p').text('圖片上傳中');
+    $('#overlay').show();
+
     var form = new FormData();
     form.append("image", $("#canvas")[0].toDataURL('image/jpeg').split(',')[1]);
 
@@ -155,20 +134,27 @@ function uploadToImgur(callback) {
     $.ajax(settings).done(function (response) {
         if(response.success) {
             IMGUR_URL = response.data.link;
+            $('#overlay').hide();
             callback();
         }
 
     });
 }
 
-function shareToTwitter() {
+function shareToSocialNetwork(site) {
+
+    var shareUrl = 'https://twitter.com/home/?status=' + encodeURIComponent(IMGUR_URL + ' 「' + WORDS[0] + '」 https://just-buy.it #justbuyit');
+
+    if (site == 'facebook') {
+        shareUrl = 'https://www.facebook.com/sharer/sharer.php?u= ' + encodeURIComponent(IMGUR_URL) + '&picture=' + encodeURIComponent(IMGUR_URL) + '&title=' + encodeURIComponent(WORDS[0]) + '&quote=' + encodeURIComponent(WORDS[0] + ' https://just-buy.it');
+    }
 
     if (IMGUR_URL) {
-        return window.open("https://twitter.com/home/?status="+encodeURIComponent(IMGUR_URL + "「" + WORDS[0] + "」 #justbuyit"));
+        return window.open(shareUrl);
     }
 
     uploadToImgur(function() {
-        window.open("https://twitter.com/home/?status="+encodeURIComponent(IMGUR_URL + "「" + WORDS[0] + "」 https://just-buy.it #justbuyit"));
+        return window.open(shareUrl);
     });
 }
 
@@ -184,11 +170,7 @@ $(document).ready(function() {
         drawText();
     });
 
-    $('#js-share-to-facebook').click(function() {
-        shareToFacebook();
-    });
-
-    $('#js-share-to-twitter').click(function() {
-        shareToTwitter();
+    $('.js-share-to-sns').click(function() {
+        shareToSocialNetwork($(this).data('site'));
     });
 });
