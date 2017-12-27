@@ -37,10 +37,10 @@
         <!--[if lt IE 9]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
         <![endif]-->
-<!--         <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/logo/favicon-96x96.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/favicon-16x16.png">
-        <link rel="icon" href="/assets/img/logo/favicon.ico"> -->
+        <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Pan-Cat/logo/master/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="https://raw.githubusercontent.com/Pan-Cat/logo/master/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Pan-Cat/logo/master/favicon/favicon-16x16.png">
+        <link rel="icon" href="https://raw.githubusercontent.com/Pan-Cat/logo/master/favicon/favicon.ico">
         <link href="assets/css/app.css?201712261037" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <link href="https://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet" type="text/css">
@@ -55,16 +55,25 @@
         </script>
     </head>
     <body>
-        <div class="wrapper">
-            <div class="background"></div>
+        <div class="nav">
+            <a href="javascript:void(0);" class="js-share-to-sns" data-site="facebook"><i class="fab fa-facebook-square fa-2x"></i></a>
+            <!-- <a href="javascript:void(0);" class="js-share-to-sns" data-site="twitter"><i class="fab fa-twitter-square fa-2x"></i></a> -->
+        </div>
+        <canvas id="canvas">
+        </canvas>
+        <div class="footer">
+            <p>WTFPL 2017 <a href="http://pan.cat/">Pan Cat Technologies</a></p>
+        </div>
 
-            <div class="word"><img src="assets/img/loading.gif" /></div>
-
-            <div class="footer">
-                <p>WTFPL 2017 <a href="http://pan.cat/">Pan Cat Technologies</a></p>
+        <div id="overlay">
+            <div>
+                <img src="assets/img/loading.gif" />
+                <p>載入中…</p>
             </div>
         </div>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
         <script src="assets/lib/jquery-3.2.1.min.js"></script>
+        <script src="assets/lib/stackblur.min.js"></script>
         <script src="assets/js/app.js"></script>
     </body>
 </html>
