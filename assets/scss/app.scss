@@ -2,51 +2,9 @@
 @import "compass/css3";
 @import "compass/css3/filter";
 
-// body {
-//     background-color: #000;
-// }
-
-// .wrapper {
-//     position: fixed;
-//     top: 0;
-//     bottom: 0;
-//     right: 0;
-//     left: 0;
-//     @include display-flex;
-//     @include flex-direction(row);
-//     @include justify-content(center);
-//     @include align-items(center);
-// }
-
-// .background {
-//     position: absolute;
-//     top: 0;
-//     bottom: 0;
-//     right: 0;
-//     left: 0;
-//     background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url(https://source.unsplash.com/1024x768);
-//     background-size: cover;
-//     @include filter(blur(1px));
-
-//     @media screen and (min-width: 1024px) {
-//         background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url(https://source.unsplash.com/1280x1024);
-//         background-size: cover;
-//     }
-// }
-
-// .word {
-//     z-index: 100;
-//     padding: 2vw;
-//     font-size: 9.6vw;
-//     color: #eee;
-//     text-align: center;
-//     font-family: 'Noto Sans TC', sans-serif;
-
-//     img {
-//         width: 64px;
-//         height: auto;
-//     }
-// }
+body {
+    overflow: hidden;
+}
 
 .nav {
     display: flex;
@@ -54,13 +12,13 @@
     z-index: 200;
     position: fixed;
     top: 0;
-    width: 60px;
     right: 0;
     padding: 16px;
 
     a {
         color: #999;
         transition: all 0.3s ease;
+        margin-left: 16px;
 
         &:hover {
             color: #ccc;
@@ -87,14 +45,35 @@
     }
 }
 
-body {
-    overflow: hidden;
-}
-
 #canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+    background-color: rgba(0, 0, 0, 0.7);
+    text-align: center;
+
+    @include display-flex;
+    @include flex-direction(row);
+    @include justify-content(center);
+    @include align-items(center);
+
+    img {
+        width: 64px;
+        height: auto;
+    }
+
+    p {
+        color: #eee;
+    }
 }
