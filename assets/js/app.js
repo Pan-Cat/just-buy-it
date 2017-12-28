@@ -66,18 +66,19 @@ function drawText() {
     let fontSize = getFontSize();
     ctx.font = fontSize + 'px "Noto Sans TC"';
     ctx.fillStyle = '#eee';
-    let measureText = ctx.measureText('測試文字');
-    let lineHeight = measureText.width/4;
+    let lineHeight = fontSize * 1.3;
     let lines = WORDS[0].split('\n');
     if (!Array.isArray(lines)) {
         lines = [WORDS[0]];
     }
+    let baseY = (HEIGHT - lineHeight * lines.length ) / 2 + lineHeight / 1.3;
 
     for (let i = 0; i<lines.length; i++) {
         measureText = ctx.measureText(lines[i]);
         ctx.fillText(lines[i],
             (WIDTH - measureText.width) / 2,
-            (HEIGHT - lines.length * lineHeight) / 2 + lineHeight * i + lineHeight/2);
+            baseY + i * lineHeight
+        );
     }
 }
 
