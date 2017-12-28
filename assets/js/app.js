@@ -32,9 +32,14 @@ function dataParser(data) {
     }
     WORDS.sort(function() { return 0.5 - Math.random() });
 
+
     document.fonts.ready.then(function () {
         initCanvas();
     });
+
+    document.fonts.onloadingdone = function (fontFaceSetEvent) {
+        initCanvas();
+    };
 }
 
 function resizeCanvasToDisplaySize(canvas) {
