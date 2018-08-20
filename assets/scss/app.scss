@@ -1,6 +1,6 @@
-@import "compass/reset";
-@import "compass/css3";
-@import "compass/css3/filter";
+@import 'compass/reset';
+@import 'compass/css3';
+@import 'compass/css3/filter';
 
 body {
     overflow: hidden;
@@ -39,10 +39,19 @@ body {
     @include flex-direction(row);
     @include justify-content(center);
     @include align-items(center);
+    @include flex-wrap(wrap);
 
     a {
         color: #ccc;
     }
+}
+
+.w100 {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
 }
 
 #canvas {
