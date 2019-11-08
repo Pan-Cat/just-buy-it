@@ -32,7 +32,6 @@ function dataParser(data) {
     }
     WORDS.sort(function() { return 0.5 - Math.random() });
 
-
     document.fonts.ready.then(function () {
         initCanvas();
     });
@@ -71,6 +70,11 @@ function drawText() {
     if (!Array.isArray(lines)) {
         lines = [WORDS[0]];
     }
+
+    if (location.href.indexOf('ldll') > -1) {
+        lines.push('來都來了');
+    }
+
     let baseY = (HEIGHT - lineHeight * lines.length ) / 2 + lineHeight / 1.3;
 
     for (let i = 0; i<lines.length; i++) {
