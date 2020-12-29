@@ -75,6 +75,10 @@ function drawText() {
         lines.push('來都來了');
     }
 
+    if (location.href.indexOf('peko') > -1) {
+        lines.push('peko');
+    }
+
     let baseY = (HEIGHT - lineHeight * lines.length ) / 2 + lineHeight / 1.3;
 
     for (let i = 0; i<lines.length; i++) {
