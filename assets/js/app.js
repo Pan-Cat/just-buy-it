@@ -27,6 +27,11 @@ let HEIGHT = 0;
 let WORDS = [];
 
 function dataParser(data) {
+
+    if (document.readyState !== 'complete') {
+        setTimeout(dataParser.bind(null, data), 100);
+    }
+
     for(let index in data.feed.entry) {
         WORDS.push(data.feed.entry[index].content["$t"]);
     }
@@ -172,11 +177,13 @@ function shareToSocialNetwork(site) {
     });
 }
 
-$(document).ready(function() {
-    let s = document.createElement( 'script' )
-    s.setAttribute( 'src', DATA_URL )
-    document.body.appendChild( s );
+(function(){
+    var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.charset = "utf-8"; pa.async = true;
+    pa.src = DATA_URL;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);
+})();
 
+$(document).ready(function() {
     $(window).resize(function() {
         let ctx = CANVAS.getContext('2d');
         resizeCanvasToDisplaySize(ctx.canvas);
