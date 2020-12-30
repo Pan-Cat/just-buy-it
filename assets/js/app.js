@@ -30,6 +30,7 @@ function dataParser(data) {
 
     if (document.readyState !== 'complete') {
         setTimeout(dataParser.bind(null, data), 100);
+        return;
     }
 
     for(let index in data.feed.entry) {
