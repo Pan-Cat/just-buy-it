@@ -11,12 +11,11 @@ https://spreadsheets.google.com/feeds/cells/{SHEET-ID}/{GRID-ID}/public/values  
 alt=json                                                                                return json
 alt=json-in-script&callback={CALLBACK}                                                  return data to callback function
  */
-
 const SHEET_ID = '1OYdT891rY4eH1RCj918OuZyvuJHEo_Ofr3eKA55E13c';
 const GRID_ID = 'od6';
 const IMGUR_ID = '448c9fc02d25574';
 
-const DATA_URL = 'https://spreadsheets.google.com/feeds/cells/' + SHEET_ID + '/' + GRID_ID + '/public/values?alt=json-in-script&callback=dataParser';
+const DATA_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
 
 const CANVAS = document.getElementById('canvas');
 
@@ -33,9 +32,10 @@ function dataParser(data) {
         return;
     }
 
-    for(let index in data.feed.entry) {
-        WORDS.push(data.feed.entry[index].content["$t"]);
+    for (var index in data.table.rows) {
+        WORDS.push(data.table.rows[index].c[0].v);
     }
+
     WORDS.sort(function() { return 0.5 - Math.random() });
 
     document.fonts.ready.then(function () {
@@ -196,3 +196,8 @@ $(document).ready(function() {
         shareToSocialNetwork($(this).data('site'));
     });
 });
+
+google = {};
+google.visualization = {};
+google.visualization.Query = {};
+google.visualization.Query.setResponse = dataParser;
