@@ -200,7 +200,7 @@ function initCanvas() {
 function isFinishedLoaded() {
     LOADED++;
 
-    let TARGET_LOADED_COUNT = 1;
+    let TARGET_LOADED_COUNT = 0;
 
     if (FLAGS.LOGO) {
         TARGET_LOADED_COUNT++;
