@@ -21,9 +21,16 @@ const CANVAS = document.getElementById('canvas');
 
 let IMGUR_URL = '';
 let IMAGE_BG = null;
+let IMAGE_LOGO = null;
 let WIDTH = 0;
 let HEIGHT = 0;
 let WORDS = [];
+let LOADED = 0;
+
+let FLAGS = {
+    LOGO: false,
+    AUTHOR: false
+};
 
 function dataParser(data) {
 
@@ -77,6 +84,10 @@ function drawText() {
         lines = [WORDS[0]];
     }
 
+    if (FLAGS.AUTHOR) {
+        lines.push('- Albert Einstein');
+    }
+
     if (location.href.indexOf('ldll') > -1) {
         lines.push('來都來了');
     }
@@ -86,14 +97,41 @@ function drawText() {
     }
 
     let baseY = (HEIGHT - lineHeight * lines.length ) / 2 + lineHeight / 1.3;
+    if (FLAGS.AUTHOR) {
+    // 補作者
+        baseY = baseY + 50;
+    }
 
-    for (let i = 0; i<lines.length; i++) {
+    if (!FLAGS.AUTHOR) {
+        for (let i = 0; i<lines.length; i++) {
+            measureText = ctx.measureText(lines[i]);
+            ctx.fillText(lines[i],
+                (WIDTH - measureText.width) / 2,
+                baseY + i * lineHeight
+            );
+        }
+
+        return;
+    }
+
+    // 寫上面
+    for (let i = 0; i<lines.length - 1; i++) {
         measureText = ctx.measureText(lines[i]);
         ctx.fillText(lines[i],
             (WIDTH - measureText.width) / 2,
             baseY + i * lineHeight
         );
     }
+
+    // 寫作者
+    let last = lines.length - 1;
+    let author = lines[lines.length - 1];
+    ctx.font = '48px "Noto Sans TC"';
+    measureText = ctx.measureText(author);
+    ctx.fillText(author,
+        (WIDTH - measureText.width - 50),
+        baseY + last * lineHeight
+    );
 }
 
 function drawBG() {
@@ -109,23 +147,74 @@ function drawBG() {
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 }
 
+function drawLogo() {
+
+    if (!FLAGS.LOGO) {
+        return;
+    }
+
+    let ctx = CANVAS.getContext('2d');
+    // ctx.font = '36px "Noto Sans TC"';
+    // ctx.fillStyle = '#eee';
+
+    // ctx.fillText('just-buy.it',
+    //     50 + 175 + 20,
+    //     // window.innerHeight - 50
+    //     50 + 38
+    // );
+
+    ctx.drawImage(IMAGE_LOGO, 50, 50, 175, 52);
+}
+
 function initCanvas() {
     let ctx = CANVAS.getContext('2d');
     resizeCanvasToDisplaySize(ctx.canvas);
     if (IMAGE_BG) {
         drawBG();
         drawText();
+        drawLogo();
         return;
     }
 
     IMAGE_BG = new Image();
     IMAGE_BG.onload = function() {
-        drawBG();
-        drawText();
-        $('#overlay').hide();
+
+        isFinishedLoaded();
     };
     IMAGE_BG.crossOrigin = 'Anonymous';
-    IMAGE_BG.src = 'https://source.unsplash.com/' + WIDTH + 'x' + HEIGHT;
+    // IMAGE_BG.src = 'https://source.unsplash.com/' + WIDTH + 'x' + HEIGHT;
+    IMAGE_BG.src = 'https://source.unsplash.com/' + WIDTH + 'x' + HEIGHT + '/?random';
+
+    if (!FLAGS.LOGO) {
+        return;
+    }
+
+    IMAGE_LOGO = new Image();
+    IMAGE_LOGO.onload = function() {
+        isFinishedLoaded();
+    }
+    IMAGE_LOGO.crossOrigin = 'Anonymous';
+    IMAGE_LOGO.src = 'https://pan.cat/assets/img/pancat-logo2.png';
+}
+
+function isFinishedLoaded() {
+    LOADED++;
+
+    let TARGET_LOADED_COUNT = 1;
+
+    if (FLAGS.LOGO) {
+        TARGET_LOADED_COUNT++;
+    }
+
+    if (LOADED <= TARGET_LOADED_COUNT) {
+        return;
+    }
+
+    drawBG();
+    drawText();
+    drawLogo();
+
+    $('#overlay').hide();
 }
 
 function uploadToImgur(callback) {
@@ -190,6 +279,7 @@ $(document).ready(function() {
         resizeCanvasToDisplaySize(ctx.canvas);
         drawBG();
         drawText();
+        drawLogo();
     });
 
     $('.js-share-to-sns').click(function() {
